@@ -1,7 +1,16 @@
+import { v } from "convex/values";
 import { mutation } from "./_generated/server";
 
-// Định nghĩa mutation deleteMessage
-export const deleteMessage = mutation(async ({ db }, args: { id: string }) => {
-  await db.delete("messages", args.id);
-  return { success: true };
+export const deleteMessage = mutation({
+  // 1. Định nghĩa tham số đầu vào bằng validator
+  args: { 
+    id: v.id("messages") 
+  },
+  
+  // 2. Hàm xử lý
+  handler: async (ctx, args) => {
+    // Lúc này args.id đã được đảm bảo đúng kiểu, không cần ép kiểu
+    await ctx.db.delete(args.id);
+    return { success: true };
+  },
 });
