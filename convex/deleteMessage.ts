@@ -2,14 +2,17 @@ import { v } from "convex/values";
 import { mutation } from "./_generated/server";
 
 export const deleteMessage = mutation({
-  // 1. Dùng v.id("messages") để Convex tự động kiểm tra ID hợp lệ
+  // 1. Dùng v.id("messages") để đảm bảo ID truyền vào là đúng chuẩn
   args: { 
     id: v.id("messages") 
   },
 
-  // 2. Trong handler, chỉ truyền args.id vào db.delete
+  // 2. Hàm xử lý chính
   handler: async ({ db }, args) => {
-    await db.delete(args.id); // ĐÚNG: Chỉ có 1 tham số
+    // SỬA LỖI Ở ĐÂY: Chỉ truyền 1 tham số là args.id
+    // Không được viết là db.delete("messages", args.id)
+    await db.delete(args.id);
+    
     return { success: true };
   },
 });
