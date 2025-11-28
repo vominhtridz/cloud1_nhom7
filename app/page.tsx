@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-
+import { Id } from "../convex/_generated/dataModel";
 export default function Home() {
   const messages = useQuery(api.getMessages.getMessages) || [];
   const addMessage = useMutation(api.addMessage.addMessage);
@@ -18,9 +18,9 @@ export default function Home() {
   };
 
   // Xóa message
-  const handleDelete = async (id: string) => {
-    await deleteMessage({ id });
-  };
+  const handleDelete = async (id: Id<"messages">) => {
+  await deleteMessage({ id });
+};
 
   // Sort messages mới nhất trước
   const sortedMessages = [...messages].sort((a, b) => b.createdAt - a.createdAt);
